@@ -3,7 +3,7 @@
 Backup de banco de dados mysql em servidor linux para um Storage Account no Azure.
 Backup via mysqldump e enviado para STO com azcopy.
 
-```
+```bash
 #!/bin/bash
 
 # ===========================================
