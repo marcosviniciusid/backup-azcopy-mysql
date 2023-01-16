@@ -8,14 +8,14 @@ Backup via mysqldump e enviado para STO com azcopy.
 
 # ===========================================
 # Backup externo do banco de dados mysql
-# version 1, atualizado em 08 mar, 2022
-# copyright 2022 Marcos Vinicius @empresa
+# version 1, atualizado em 16 jan, 2023
+# copyright 2023 Marcos Vinicius @empresa
 # ============================================
 
 # Data de Hoje
 data=$(date +\%-d-\%-m-\%-Y)
 
-# Variaveis para mysqldump 
+# Variaveis Para Mysqldump 
 dbname='nome'
 dbuser='usuario'
 dbpass='senha'
@@ -25,19 +25,24 @@ path='/home/backup/diario'
 file=backup-$dbname-$data.sql
 filecompacted=$file.tar.gz
 
-# Token SAS
-sas='https://nomeblob.blob.core.windows.net/container/$dbname/db/?sp=chave'
+# Variaveis do Blob/Container
+blob='nome-storage-account'
+container='nome-container-blob'
+token='sas-do-container-blob'
 
-# Backup do banco de dados
+# Token SAS
+sas="https://$blob.blob.core.windows.net/$container/$dbname/db/?$token"
+
+# Backup do Banco de Dados
 mysqldump --user=$dbuser --password=$dbpass $dbname > $path/$file
 
-# Compactar arquivo
-tar -cvzf $path/$filecompacted $file
+# Compactar Arquivo
+tar -cvzf $path/$filecompacted $path/$file
 
 # AzCopy -> Storage Account (stowebapp)
 /home/az_copy/azcopy cp $path/$filecompacted "$sas"
 
-# Deletar arquivo local
+# Deletar Arquivo Local
 rm -rf $path/$filecompacted
 rm -rf $path/$file
 ```
