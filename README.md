@@ -3,6 +3,8 @@
 Backup de banco de dados mysql em servidor linux para um Storage Account no Azure.
 Backup via mysqldump e enviado para STO com azcopy.
 
+`Criar arquivo.sh`
+
 ```bash
 #!/bin/bash
 
@@ -45,4 +47,11 @@ tar -cvzf $path/$filecompacted $path/$file
 # Deletar Arquivo Local
 rm -rf $path/$filecompacted
 rm -rf $path/$file
+```
+
+# Agendar no Crontab o backup
+`crontab -e`
+```
+# CRONTAB - backup externo
+0 23 * * * bash /home/scripts/azcopy_db_glpi.sh
 ```
